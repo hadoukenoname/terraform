@@ -1,0 +1,27 @@
+#cloud-config
+datasource:
+  Ec2:
+    strict_id: false
+ssh_pwauth: no
+ssh_authorized_keys:
+  - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID3hl8EngwTFTFGJR5v4+YCJiXk23Yu5z6SVTrx2qVj8 89202@vadik
+package_update: false
+package_upgrade: false
+packages:
+  - nginx
+runcmd: 
+  - |
+    sudo tee -a /var/www/html/index.nginx-debian.html > /dev/null <<'EOF'
+    <!doctype html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>сосал?</title>
+    </head>
+    <body>
+        <h1>ну да сосал и че</h1>    
+        <p>We have just provisioned YDB. You can connect to it via: <br><b>${ydb_connect_string}</b></p>
+        <p>We have just provisioned Yandex Object Storage. You can find it here: <br><b>${bucket_domain_name}</b></p>        
+    </body>
+    </html>
+    EOF
