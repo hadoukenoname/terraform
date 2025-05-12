@@ -8,14 +8,6 @@ output "boot_disk_ids" {
   }
 }
 
-output "instance_ids" {
-  description = "The IDs of the Yandex Compute instances."
-  value = {
-    for instance in yandex_compute_instance.this :
-    instance.name => instance.id...
-  }
-}
-
 output "subnet_ids" {
   description = "The IDs of the VPC subnets used by the Yandex Compute instances."
   value = {
@@ -39,3 +31,10 @@ output "bucket_name" {
   value       = module.s3.bucket_name
 }
 
+output "stopped_instances" {
+  description = "The list of stopped instances"
+  value = {
+    for instance in yandex_compute_instance.this :
+    instance.name => instance.id
+  }
+}

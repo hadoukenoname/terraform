@@ -124,3 +124,19 @@ resource "random_string" "bucket_name" {
   special = false
   upper   = false
 }
+
+resource "time_sleep" "this" {
+  create_duration = "180s"
+
+  depends_on = [ yandex_compute_instance.this ]
+}
+
+resource "terraform_data" "stop_instance" {
+  for_each = yandex_compute_instance.this
+
+  provisioner "local-exec" {
+    command = "yc compute instance stop ${each.value.id}"
+  }
+
+  depends_on = [ time_sleep.this ]
+}
